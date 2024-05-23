@@ -1,0 +1,91 @@
+/* Root */
+:root {
+  --main-color: #5a4e96;
+}
+* {
+  box-sizing: border-box;
+}
+/* Start Body */
+body {
+  font-family: "Roboto", sans-serif;
+  /* font-optical-sizing: auto; */
+  /* font-weight: 100/200/300/400/500/600/700; */
+  /* font-style: normal / italic; */
+}
+
+/* End Body */
+
+/* Start componant */
+@media (max-width: 768px) {
+  .theimgforcontent {
+    display: none;
+  }
+}
+.bg-vm-c-w,
+.bg-vm-c-w:hover {
+  background-color: var(--main-color);
+  color: white;
+}
+/* End componant */
+/* Start Nav */
+
+.navBar ul li .active,
+.navBar ul li a:hover {
+  color: #5a4e96 !important;
+}
+/* Start Logo */
+.logo {
+  color: var(--main-color);
+}
+.logo .logoName {
+  color: var(--main-color);
+}
+.loginNav,
+.regesNav {
+  background-color: var(--main-color);
+}
+.loginNav:hover,
+.regesNav:hover {
+  color: white;
+  background-color: var(--main-color);
+}
+/* End Logo */
+/* End Nav */
+
+/* Start Content */
+@media (min-width: 768px) {
+  .content .h2 {
+    letter-spacing: 6px !important;
+    font-size: 4.5rem !important;
+  }
+}
+
+/* End Content */
+
+/* start navbarforposts */
+.navbarforposts {
+  background-color: var(--main-color);
+}
+.navbar-toggler-infoucs:focus {
+  box-shadow: none;
+}
+.postsBody {
+  margin-top: 8rem;
+}
+/* end navbarforposts */
+
+.thebtn {
+  background-color: var(--main-color);
+  width: 5rem;
+  height: 5rem;
+  font-size: 5rem;
+  color: white;
+  border: none;
+}
+
+/* .btnCreatePost {
+  z-index: 9999;
+} */
+/* .modal-backdrop {
+  z-index: -1;
+} */

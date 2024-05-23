@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstap Link -->
+    <link
+      rel="stylesheet"
+      href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CSS Link -->
+    <link rel="stylesheet" href="./css/master.css" />
+    <title>Document</title>
+    <!-- Axios Link -->
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+
+    <!-- Start Nav -->
+    <div class="navBar mt-2 mb-2">
+        <div class="container">
+          <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+
+              <!-- start logo -->
+              <div
+                class="navbar-brand d-flex flex-column justify-content-between align-items-center logo"
+                href="#"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="32"
+                  width="40"
+                  viewBox="0 0 640 512"
+                >
+                  <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                  <path
+                    fill="#5a4e96"
+                    d="M218.3 8.5c12.3-11.3 31.2-11.3 43.4 0l208 192c6.7 6.2 10.3 14.8 10.3 23.5H336c-19.1 0-36.3 8.4-48 21.7V208c0-8.8-7.2-16-16-16H208c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h64V416H112c-26.5 0-48-21.5-48-48V256H32c-13.2 0-25-8.1-29.8-20.3s-1.6-26.2 8.1-35.2l208-192zM352 304V448H544V304H352zm-48-16c0-17.7 14.3-32 32-32H560c17.7 0 32 14.3 32 32V448h32c8.8 0 16 7.2 16 16c0 26.5-21.5 48-48 48H544 352 304c-26.5 0-48-21.5-48-48c0-8.8 7.2-16 16-16h32V288z"
+                  />
+                </svg>
+                <div class="fs-5 logoName fw-bold">Your 2nd Home</div>
+              </div>
+              <!-- end logo -->
+
+              <!-- Start btn for nav bar in smal screen -->
+              <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <!-- end btn for nav bar in smal screen -->
+
+              <!-- Start Nav Bar -->
+              <div
+                class="collapse navbar-collapse mx-lg-5"
+                id="navbarTogglerDemo02"
+              >
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 mainnaveul">
+                  <li class="nav-item mx-lg-5 ">
+                    <a
+                      class="nav-link text-black active fs-4 homepage"
+                      aria-current="page"
+                      href="#"
+                      >Home</a
+                    >
+                  </li>
+                  <li class="nav-item me-lg-5">
+                    <a
+                      class="nav-link text-black fs-4 comingsoon"
+                      aria-current="page"
+                      href="#"
+                      >About</a
+                    >
+                  </li>
+                  <li class="nav-item me-lg-5">
+                    <a
+                      class="nav-link text-black fs-4 comingsoon"
+                      aria-current="page"
+                      href="#"
+                      >Service</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      class="nav-link text-black fs-4 comingsoon"
+                      aria-current="page"
+                      href="#"
+                      >Contact</a
+                    >
+                  </li>
+                </ul>
+                <form class="d-flex">
+                  <button
+                    type="button"
+                    class="btn loginNav text-white rounded-pill px-4 me-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#login_model"
+                    data-bs-whatever="@mdo"
+                  >
+                    Log in
+                  </button>
+                  <button
+                    type="button"
+                    class="btn regesNav text-white rounded-pill px-4"
+                    data-bs-toggle="modal"
+                    data-bs-target="#signup-model"
+                    data-bs-whatever="@mdo"
+                  >
+                    Sign up
+                  </button>
+                  <!-- start log in model -->
+                  <div
+                    class="modal fade"
+                    id="login_model"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            Log in
+                          </h1>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label"
+                                >Username:</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control loginUsernameInput"
+                                id="recipient-name"
+                                placeholder="Enter Your Username"
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label for="message-text" class="col-form-label"
+                                >Password:</label
+                              >
+                              <input
+                                class="form-control loginPasswordInput"
+                                id="message-text"
+                                type="password"
+                                placeholder="Enter Your Password"
+                              ></input>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                          <button type="button" class="btn bg-vm-c-w loginImBtn">
+                            Log in
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end log in model -->
+
+                  <!-- start sign up model -->
+                  <div
+                    class="modal fade"
+                    id="signup-model"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">
+                            Sign up
+                          </h1>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class="mb-3">
+                              <label for="recipient-namee" class="col-form-label"
+                                >Username:</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control regesUserName"
+                                id="recipient-namee"
+                                placeholder="Enter Your Username"
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label for="password-tt" class="col-form-label"
+                                >Password:</label
+                              >
+                              <input
+                                type="password-tt"
+                                class="form-control regesPassword"
+                                id="message-textt"
+                                placeholder="Enter Password At Least 6 Chars Or Numbers "
+                              ></input>
+                            </div>   
+                            <div class="mb-3">
+                              <label for="prfImg" class="col-form-label"
+                                >Profile Image:</label
+                              >
+                              <input type="file"  id="prfImg"
+                              class="form-control regesImage">
+                            </div>   
+                            <div class="mb-3">
+                              <label for="name" class="col-form-label"
+                                >Name:</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control regesName"
+                                id="name"
+                                placeholder="Enter Your Name"
+                              ></input>
+                            </div>  
+                            <div class="mb-3">
+                              <label for="email" class="col-form-label"
+                                >E-mail:</label
+                              >
+                              <input
+                                type="email"
+                                class="form-control regesEmail"
+                                id="email"
+                                placeholder="Enter Your Email"
+                              ></input>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="button" class="btn bg-vm-c-w signUpImBtn">
+                          Sign up
+                        </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end sign up model -->
+                </form>
+              </div>
+              <!-- End Nav Bar -->
+            </div>
+          </nav>
+        </div>
+    </div>
+    <!-- End Nav -->
+
+    <!-- Start Content -->
+    <div class="content position-relative overflow-hidden">
+        <div class="contentbody">
+        <img src="imgs/backgroundForAllPage.png" alt="" class="position-absolute  img-fluid theimgforcontent z-n1">
+        <div class="container">
+          <div class="row flex-column-reverse flex-lg-row">
+            <div class="col-mid-12 col-lg-6 fw-bold tere">
+              <div class="text p-2 p-md-5 pe-0 text-center text-md-start">
+                <h2 class="h2 fs-1 fw-bold">
+                  Social Media Society
+                </h2>
+                <h4 class="h4 ds-3 pt-3">
+                  Start as a vlogger
+                </h4>
+                <p class="p fw-normal">
+                  Lorem ipsum dolor sit amet consectetuer adipiscing.
+                </p>
+                <div class="websiteLink pt-5 px-2">
+                  <p class="fw-normal fs-5">www.mywebsiteline.com</p>
+                </div>
+              </div>          
+            </div>
+            <div class="col-mid-12 col-lg-6 d-flex justify-content-center align-items-center">
+              <div class="pic p-3 ">
+                <img src="imgs/picInRightLanding.png" alt="" srcset=""class="img-fluid">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="forcommingsoon">
+        <div class="d-flex justify-content-center align-items-center ">
+          <img src="imgs/comingSoon.png" alt=""style="     max-width: 25rem;" >
+        </div>
+      </div>
+    </div>
+    <!-- End Content -->
+
+    <!-- Javascript Link -->
+    <script src="./js/main-index.js"></script>
+    <!-- BootStrap Link -->
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
