@@ -31,6 +31,89 @@ ifNoTokenInLocal();
 
 getPosts(20);
 
+//
+
+// /////////////////////////////////////////////////
+// here will get 50 post but at first i will get just 20 post and every time i reach end by scroll i will get another 10 post
+function appendPostToContainer(post) {
+  let postUsername = post.author.name;
+  let postUserimg = isEmpty(post.author.profile_image)
+    ? "../imgs/prof.png"
+    : post.author.profile_image;
+  let postTitle = post.title || "";
+  let postBody = post.body || "";
+  let postImg = post.image || "";
+  let postCreated_at = post.created_at;
+
+  theContainerOfPosts.innerHTML += `
+    <div class="card mb-5" style="width: 40rem; max-width:100%">
+      <div class="userInfo p-3 d-flex justify-content-start align-items-center">
+        <img class="postUserimg" src=${postUserimg} alt="" style="width: 50px; height: 50px; border-radius: 50%;">
+        <h5 class="postUsername" style="padding-left: 10px;">${postUsername}</h5>
+      </div>
+      <img src=${postImg} class="card-img-top p-2 postImg" alt="">
+      <div class="card-body">
+        <h5 class="card-title postTitle">${postTitle}</h5>
+        <p class="card-text postBody">${postBody}</p>
+        <hr>
+        <div class="comment d-flex justify-content-start align-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" height="25" width="25" viewBox="0 0 512 512">
+            <path fill="#493489" d="M123.6 391.3c12.9-9.4 29.6-11.8 44.6-6.4c26.5 9.6 56.2 15.1 87.8 15.1c124.7 0 208-80.5 208-160s-83.3-160-208-160S48 160.5 48 240c0 32 12.4 62.8 35.7 89.2c8.6 9.7 12.8 22.5 11.8 35.5c-1.4 18.1-5.7 34.7-11.3 49.4c17-7.9 31.1-16.7 39.4-22.7zM21.2 431.9c1.8-2.7 3.5-5.4 5.1-8.1c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208s-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6c-15.1 6.6-32.3 12.6-50.1 16.1c-.8 .2-1.6 .3-2.4 .5c-4.4 .8-8.7 1.5-13.2 1.9c-.2 0-.5 .1-.7 .1c-5.1 .5-10.2 .8-15.3 .8c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c4.1-4.2 7.8-8.7 11.3-13.5c1.7-2.3 3.3-4.6 4.8-6.9c.1-.2 .2-.3 .3-.5z"/>
+          </svg>
+          <p class="card-text ms-2"><small class="text-body-secondary postCreated_at">Last updated ${postCreated_at}</small></p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+let loadingPosts = false;
+
+window.addEventListener("scroll", function () {
+  if (!loadingPosts && isBottomOfPage()) {
+    loadingPosts = true;
+    addNewPosts();
+    thelimit += 10;
+  }
+});
+
+function isBottomOfPage() {
+  return window.innerHeight + window.scrollY >= document.body.offsetHeight - 50;
+}
+let thelimit = 30;
+function addNewPosts() {
+  let offset = theContainerOfPosts.children.length;
+  if (offset != thelimit) {
+    let load = document.createElement("div");
+    load.innerHTML = `<div class="d-flex justify-content-center position-fixid top-50 start-50">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>`;
+    document.body.appendChild(load);
+    setTimeout(() => {
+      load.style.display = "none";
+    }, 2500);
+  }
+  axios
+    .get(`${url}/posts?limit=${thelimit}&offset=${offset}`)
+    .then((response) => {
+      const posts = response.data.data;
+      let aftetsli = posts.slice(offset, offset + 10);
+      for (const post of aftetsli) {
+        appendPostToContainer(post);
+      }
+      loadingPosts = false;
+    })
+    .catch((error) => {
+      console.log(error);
+      loadingPosts = false;
+    });
+}
+
+// /////////////////////////////////////////////////
+
+//
 // function check if user have pic or no
 function isEmpty(obj) {
   for (const prop in obj) {
