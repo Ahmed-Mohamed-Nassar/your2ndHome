@@ -65,13 +65,25 @@ function appendPostToContainer(post) {
 
 
         <div class="row" style="display: flex; flex-direction: column; padding: 10px 15px;"> 
-        <p class="card-text ms-2 " style=" display: flex; margin-top: 10px;margin-bottom: 10px; justify-content: space-between; align-items: center;">
-        <button class="showComments" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px; padding: 5px 10px; margin-right: 5px;">show ${post.comments_count} comments</button>
+        <button class="addComment" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px;
+        padding: 5px 10px;">add comments</button>
         
-        <button class="showComments" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px;
-        padding: 5px 10px;">show ${post.comments_count} comments</button>
+        <p class="card-text ms-2 " style=" display: flex; margin-top: 10px;margin-bottom: 10px; justify-content: space-between; align-items: center;">
+        <button class="showComments" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px; padding: 5px 10px; margin-left: 5px;">show ${post.comments_count} comments</button>
+        
+       
         </p>
         
+
+        <form>
+        <div class="mb-3">
+          <label for="commentText" class="form-label">Comment Text</label>
+          <input type="text" class="form-control commentBodyText" id="commentText" aria-describedby="emailHelp">
+        </div>
+        
+      </form>
+
+
         </div>
 
 
@@ -194,12 +206,24 @@ function getPosts(limit) {
 
 <div class="row" style="display: flex; flex-direction: column; padding: 10px 15px;"> 
 <p class="card-text ms-2 " style=" display: flex; margin-top: 10px;margin-bottom: 10px; justify-content: space-between; align-items: center;">
-<button class="showComments" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px;
-padding: 5px 10px;margin-right: 5px; ">show ${post.comments_count} comments</button>
+<button class="addComment" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px;
+padding: 5px 10px;">add comments</button>
 
 <button class="showComments" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px;
-padding: 5px 10px;">show ${post.comments_count} comments</button>
+padding: 5px 10px;margin-left: 5px; ">show ${post.comments_count} comments</button>
+
+
 </p>
+
+
+<form>
+<div class="mb-3">
+  <label for="commentText" class="form-label">Comment Text</label>
+  <input type="text" class="form-control commentBodyText" id="commentText" aria-describedby="emailHelp">
+</div>
+
+</form>
+
 
 </div>
             </div>
@@ -225,12 +249,24 @@ padding: 5px 10px;">show ${post.comments_count} comments</button>
 
 <div class="row" style="display: flex; flex-direction: column; padding: 10px 15px;"> 
 <p class="card-text ms-2 " style=" display: flex; margin-top: 10px;margin-bottom: 10px; justify-content: space-between; align-items: center;">
-<button class="showComments" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px;
-padding: 5px 10px;">show ${post.comments_count} comments</button>
+<button class="addComment" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px;
+padding: 5px 10px;">add comments</button>
 
 <button class="showComments" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px;
 padding: 5px 10px;">show ${post.comments_count} comments</button>
+
+
 </p>
+
+
+<form>
+<div class="mb-3">
+  <label for="commentText" class="form-label">Comment Text</label>
+  <input type="text" class="form-control commentBodyText" id="commentText" aria-describedby="emailHelp">
+</div>
+
+</form>
+
 
 </div>
             </div>
@@ -407,3 +443,37 @@ document.addEventListener("click", function (e) {
       });
   }
 });
+let commentId = "";
+//
+document.addEventListener("click", function (e) {
+  if (
+    e.target.classList.contains("addComment") &&
+    document.getElementById("commentText").value !== ""
+  ) {
+    commentId = e.target.value;
+    let btn = e.target;
+    btn.setAttribute("disabled", "");
+    ass();
+  }
+});
+
+function ass() {
+  let params = {
+    body: `${document.getElementById("commentText").value}`,
+  };
+  let theHeaders = {
+    authorization: localStorage.token,
+  };
+
+  axios
+    .post(`${url}/posts/${commentId}/comments`, params, {
+      headers: theHeaders,
+    })
+    .then((response) => {
+      console.log(response);
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}

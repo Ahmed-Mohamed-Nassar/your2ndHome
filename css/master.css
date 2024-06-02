@@ -89,3 +89,9 @@ body {
 /* .modal-backdrop {
   z-index: -1;
 } */
+.addComment:hover,
+.showComments:hover {
+  background-color: var(--main-color) !important;
+  color: white !important;
+  border: none !important;
+}
