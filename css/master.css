@@ -95,3 +95,8 @@ body {
   color: white !important;
   border: none !important;
 }
+@media (max-width: 991px) {
+  .fontss {
+    font-size: 12px;
+  }
+}

@@ -68,9 +68,8 @@ function appendPostToContainer(post) {
         
         
         
-        <p class="card-text ms-2 " style=" display: flex; margin-top: 10px;margin-bottom: 10px; justify-content: space-between; align-items: center;">
-        <button class="addComment" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px;
-        padding: 5px 10px;">add comments</button>
+        <p class="card-text ms-2 " style=" display: flex; margin-top: 10px;margin-bottom: 10px; justify-content: flex-end; align-items: center;">
+        
        
         <button class="showComments" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px; padding: 5px 10px; margin-left: 5px;">show ${post.comments_count} comments</button>
         
@@ -78,13 +77,7 @@ function appendPostToContainer(post) {
         </p>
         
 
-        <form>
-        <div class="mb-3">
-          <label for="commentText" class="form-label">Comment Text</label>
-          <input type="text" class="form-control commentBodyText" id="commentText" aria-describedby="emailHelp">
-        </div>
-        
-      </form>
+       
 
 
         </div>
@@ -207,16 +200,10 @@ function getPosts(limit) {
                 <p class="card-text ms-2"><small class="text-body-secondary postCreated_at">Last updated ${postCreated_at}</small></p>
               </div>
               <div class="row" style="display: flex; flex-direction: column; padding: 10px 15px;"> 
-              <p class="card-text ms-2 " style=" display: flex; margin-top: 10px;margin-bottom: 10px; justify-content: space-between; align-items: center;">
-                <button class="addComment" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px; padding: 5px 10px;">add comments</button>
+              <p class="card-text ms-2 " style=" display: flex; margin-top: 10px;margin-bottom: 10px; justify-content: flex-end; align-items: center;">
                 <button class="showComments" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px; padding: 5px 10px;margin-left: 5px; ">show ${post.comments_count} comments</button>
               </p>
-              <form>
-                <div class="mb-3">
-                  <label for="commentText" class="form-label">Comment Text</label>
-                  <input type="text" class="form-control commentBodyText" id="commentText" aria-describedby="emailHelp">
-                </div>
-              </form>
+           
               </div>
             </div>
           </div>
@@ -237,16 +224,10 @@ function getPosts(limit) {
                 <p class="card-text ms-2"><small class="text-body-secondary postCreated_at">Last updated ${postCreated_at}</small></p>
               </div>
               <div class="row" style="display: flex; flex-direction: column; padding: 10px 15px;"> 
-                <p class="card-text ms-2 " style=" display: flex; margin-top: 10px;margin-bottom: 10px; justify-content: space-between; align-items: center;">
-                  <button class="addComment" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px; padding: 5px 10px;">add comments</button>
+                <p class="card-text ms-2 " style=" display: flex; margin-top: 10px;margin-bottom: 10px; justify-content: flex-end; align-items: center;">
                   <button class="showComments" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px; padding: 5px 10px;">show ${post.comments_count} comments</button>
                 </p>
-                <form>
-                  <div class="mb-3">
-                    <label for="commentText" class="form-label">Comment Text</label>
-                    <input type="text" class="form-control commentBodyText" id="commentText" aria-describedby="emailHelp">
-                  </div>
-                </form>
+            
               </div>
             </div>
           </div>
@@ -353,11 +334,21 @@ function createPostAndGetPostsAgain() {
 }
 
 // end btn create post
-
+let commentId = "";
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("showComments")) {
-    let commentId = e.target.value;
+    commentId = e.target.value;
     let btn = e.target;
+    btn.style.display = "none";
+    let theform = document.createElement("div");
+    theform.innerHTML = `   
+    <form>
+      <div class="mb-3 d-flex">
+        <input placeholder="Comment Text" type="text" class="form-control commentBodyText" id="commentText" aria-describedby="emailHelp">
+        <button type="button" class="addComment"  style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px; padding: 5px 10px;">Send</button>
+      </div>
+    </form>`;
+    btn.parentElement.after(theform);
     axios
       .get(`${url}/posts/${commentId}`)
       .then((response) => {
@@ -381,7 +372,8 @@ document.addEventListener("click", function (e) {
             if (isEmpty(commentProfileImgUrl)) {
               commentProfileImgUrl = "../imgs/prof.png";
             }
-            parent.innerHTML += `
+            let elem = document.createElement("div");
+            elem.innerHTML = `
             <div style="display:flex; margin-bottom: 5px; background-color: #f9f9f9; padding: 10px 15px; border: 1px solid gray; border-radius: 10px 10px; margin-top: 5px;">
               <div style="margin-right:5px">
                 <img style ="width: 50px; height: 50px; border-radius: 50%;"src="${commentProfileImgUrl}" alt="" srcset="">
@@ -389,18 +381,22 @@ document.addEventListener("click", function (e) {
 
               <div>
                 <div style="font-weight:bold">${commentProfileName}</div>
-                <div>Comment: ${commentBody}</div>
+                <div class="fontss">Comment: ${commentBody}</div>
               </div>
 
             </div>`;
+
+            parent.prepend(elem);
           }
         } else {
           btn.setAttribute("disabled", "");
-          let parent = e.target.parentElement.parentElement;
 
-          parent.innerHTML += `<div style="display:flex; margin-bottom: 5px; background-color: #f9f9f9; padding: 10px 15px; border: 1px solid gray; border-radius: 10px 10px; margin-top: 5px;">
+          let elem = document.createElement("div");
+          elem.innerHTML = `<div style="display:flex; margin-bottom: 5px; background-color: #f9f9f9; padding: 10px 15px; border: 1px solid gray; border-radius: 10px 10px; margin-top: 5px;">
             <div style="font-weight:bold">This Post Have No Comment</div>
             </div>`;
+
+          parent.prepend(elem);
         }
       })
       .catch((error) => {
@@ -408,21 +404,23 @@ document.addEventListener("click", function (e) {
       });
   }
 });
-let commentId = "";
-//
+
 document.addEventListener("click", function (e) {
   if (
     e.target.classList.contains("addComment") &&
     document.getElementById("commentText").value !== ""
   ) {
-    commentId = e.target.value;
-    let btn = e.target;
-    btn.setAttribute("disabled", "");
-    ass();
+    console.log("good");
+    // let btn = e.target;
+    // btn.setAttribute("disabled", "");
+    ass(e);
+    let ddd = document.createElement("p");
+
+    e.target.parentElement.parentElement.parentElement.before(ddd);
   }
 });
 
-function ass() {
+function ass(e) {
   let params = {
     body: `${document.getElementById("commentText").value}`,
   };
@@ -436,7 +434,37 @@ function ass() {
     })
     .then((response) => {
       console.log(response);
-      window.location.reload();
+
+      // window.location.reload();
+
+      let commentProfileImgUrl = response.data.data.author.profile_image;
+      console.log(commentProfileImgUrl);
+      let commentProfileName = response.data.data.author.name;
+      console.log(commentProfileName);
+      let commentBody = response.data.data.body;
+      console.log(commentBody);
+      // console.log(e.target.parentElement.parentElement);
+      if (isEmpty(commentProfileImgUrl)) {
+        commentProfileImgUrl = "../imgs/prof.png";
+      }
+      let elem = document.createElement("div");
+      elem.innerHTML = `
+      <h6 style="margin-top: -10px">New Comment</h6>
+      <div style="display:flex; margin-bottom: 10px; background-color: #5a4e96;color:white; padding: 10px 15px; border: 1px solid gray; border-radius: 10px 10px;">
+        <div style="margin-right:5px">
+          <img style ="width: 50px; height: 50px; border-radius: 50%;"src="${commentProfileImgUrl}" alt="" srcset="">
+        </div>
+
+        <div>
+          <div style="font-weight:bold">${commentProfileName}</div>
+          <div class="fontss">Comment: ${commentBody}</div>
+        </div>
+
+      </div>`;
+
+      e.target.parentElement.parentElement.parentElement.before(elem);
+      document.getElementById("commentText").value = "";
+      //
     })
     .catch((error) => {
       console.log(error);
