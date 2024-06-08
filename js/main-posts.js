@@ -767,7 +767,10 @@ function edit(id) {
   let formData = new FormData();
   formData.append("title", document.getElementById("edit-post-title").value);
   formData.append("body", document.getElementById("edit-post-body").value);
-  formData.append("image", document.getElementById("edit-post-img").files[0]);
+  if (document.getElementById("edit-post-img").files[0]) {
+    formData.append("image", document.getElementById("edit-post-img").files[0]);
+  }
+  // formData.append("image", document.getElementById("edit-post-img").files[0]);
   formData.append("_method", "put");
   let theHeaders = {
     authorization: token,
