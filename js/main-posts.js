@@ -44,13 +44,100 @@ function appendPostToContainer(post) {
   let postBody = post.body || "";
   let postImg = post.image || "";
   let postCreated_at = post.created_at;
-
+  let dis = "none";
+  if (post.author.id === JSON.parse(localStorage.getItem("userData")).id) {
+    dis = "block";
+  }
   theContainerOfPosts.innerHTML += `
     <div class="card mb-5" style="width: 40rem; max-width:100%">
-      <div class="userInfo p-3 d-flex justify-content-start align-items-center">
-        <img class="postUserimg" src=${postUserimg} alt="" style="width: 50px; height: 50px; border-radius: 50%;">
-        <h5 class="postUsername" style="padding-left: 10px;">${postUsername}</h5>
-      </div>
+      <div  class="d-flex justify-content-between">
+        <div class="userInfo p-3 d-flex justify-content-start align-items-center">
+          <img class="postUserimg" src=${postUserimg} alt="" style="width: 50px; height: 50px; border-radius: 50%;">
+          <h5 class="postUsername" style="padding-left: 10px;">${postUsername}</h5>
+          </div>
+          <div style="display:${dis}"><button data-bs-toggle="modal"
+          data-bs-target="#edit-post-model" type="button" class="btn btnbtnaaadots " id="${post.id}">Edit</button></div>
+
+              
+          <div
+          class="modal fade"
+          id="edit-post-model"
+          tabindex="-1"
+          aria-labelledby="editPostLable"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editPostLable">
+                  Edit Post
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  
+                     
+                  <div class="mb-3">
+                    <label for="edit-post-title" class="col-form-label"
+                      >Post Title:</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control "
+                      id="edit-post-title"
+                      placeholder="Enter Post Title"
+                      value="${postTitle}"
+                    ></input>
+                  </div>  
+                  <div class="mb-3">
+                    <label for="edit-post-body" class="col-form-label"
+                      >Post Body:</label
+                    >
+                    <textarea
+                      class="form-control  w-100 "
+                      id="edit-post-body"
+                      placeholder="Enter Post Body"
+                      style="resize: none; height: 100px;"
+                      value="${postBody}"
+                    >${postBody}</textarea>
+                  </div>  
+                  <div class="mb-3">
+                    <label for="edit-post-img" class="col-form-label"
+                      >Post Body:</label
+                    >
+                    <input type="file" class="form-control  "
+                    id="edit-post-img">
+                    
+                  </div>  
+                  
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                id="closeEdit"
+              >
+                Close
+              </button>
+              <button type="button" id="btnEditPost" class="btn bg-vm-c-w ">
+                Edit Post
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+          </div>
+
       <img src=${postImg} class="card-img-top p-2 postImg" alt="">
       <div class="card-body">
         <h5 class="card-title postTitle">${postTitle}</h5>
@@ -180,16 +267,115 @@ function getPosts(limit) {
         if (post.body != null) {
           postBody = post.body;
         }
+        let dis = "none";
+        if (post.author.id == JSON.parse(localStorage.getItem("userData")).id) {
+          dis = "block";
+        }
         //
         if (postImg !== "") {
           theContainerOfPosts.innerHTML += `
           <div class="card mb-5" style="width: 40rem; max-width:100%">
-            <div class="userInfo p-3 d-flex justify-content-start align-items-center">
-
-              <img class="postUserimg" src=${postUserimg} alt="" style="width: 50px; height: 50px; border-radius: 50%;">
-
-              <h5 class="postUsername" style="padding-left: 10px;">${postUsername}</h5>
+            <div  class="d-flex justify-content-between">
+              <div class="userInfo p-3 d-flex justify-content-start align-items-center">
+                <img class="postUserimg" src=${postUserimg} alt="" style="width: 50px; height: 50px; border-radius: 50%;">
+                <h5 class="postUsername" style="padding-left: 10px;">${postUsername}</h5>
+              </div>
+              <div style="display:${dis}"><button data-bs-toggle="modal"
+              data-bs-target="#edit-post-model" type="button" class="btn btnbtnaaadots " id="${post.id}">Edit</button></div>
+           
+           
+           
+           
+              
+              <div
+              class="modal fade"
+              id="edit-post-model"
+              tabindex="-1"
+              aria-labelledby="editPostLable"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editPostLable">
+                      Edit Post
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      
+                         
+                      <div class="mb-3">
+                        <label for="edit-post-title" class="col-form-label"
+                          >Post Title:</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control "
+                          id="edit-post-title"
+                          placeholder="Enter Post Title"
+                          value="${postTitle}"
+                        ></input>
+                      </div>  
+                      <div class="mb-3">
+                        <label for="edit-post-body" class="col-form-label"
+                          >Post Body:</label
+                        >
+                        <textarea
+                          class="form-control  w-100 "
+                          id="edit-post-body"
+                          placeholder="Enter Post Body"
+                          style="resize: none; height: 100px;"
+                          value="${postBody}"
+                        >${postBody}</textarea>
+                      </div>  
+                      <div class="mb-3">
+                        <label for="edit-post-img" class="col-form-label"
+                          >Post Body:</label
+                        >
+                        <input type="file" class="form-control  "
+                        id="edit-post-img">
+                        
+                      </div>  
+                      
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    id="closeEdit"
+                  >
+                    Close
+                  </button>
+                  <button type="button" id="btnEditPost" class="btn bg-vm-c-w ">
+                    Edit Post
+                  </button>
+                  </div>
+                </div>
+              </div>
             </div>
+            
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+              </div>
+
             <img  src=${postImg} class="card-img-top p-2 postImg" alt="">
             <div class="card-body">
               <h5 class="card-title postTitle">${postTitle}</h5>
@@ -211,10 +397,96 @@ function getPosts(limit) {
         } else {
           theContainerOfPosts.innerHTML += `
           <div class="card mb-5" style="width: 40rem; max-width:100%">
-            <div class="userInfo p-3 d-flex justify-content-start align-items-center">
-              <img class="postUserimg" src=${postUserimg} alt="" style="width: 50px; height: 50px; border-radius: 50%;">
-              <h5 class="postUsername" style="padding-left: 10px;">${postUsername}</h5>
-            </div>
+            <div  class="d-flex justify-content-between">
+              <div  class="userInfo p-3 d-flex justify-content-start align-items-center">
+                <img class="postUserimg" src=${postUserimg} alt="" style="width: 50px; height: 50px; border-radius: 50%;">
+                <h5 class="postUsername" style="padding-left: 10px;">${postUsername}</h5>
+                </div>
+                <div style="display:${dis}"><button data-bs-toggle="modal"
+                data-bs-target="#edit-post-model" type="button" class="btn btnbtnaaadots btnaaadots" id="${post.id}">Edit</button></div>
+              
+              
+                <div
+                class="modal fade"
+                id="edit-post-model"
+                tabindex="-1"
+                aria-labelledby="editPostLable"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="editPostLable">
+                        Edit Post
+                      </h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        
+                           
+                        <div class="mb-3">
+                          <label for="edit-post-title" class="col-form-label"
+                            >Post Title:</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control "
+                            id="edit-post-title"
+                            placeholder="Enter Post Title"
+                            value="${postTitle}"
+                          ></input>
+                        </div>  
+                        <div class="mb-3">
+                          <label for="edit-post-body" class="col-form-label"
+                            >Post Body:</label
+                          >
+                          <textarea
+                            class="form-control  w-100 "
+                            id="edit-post-body"
+                            placeholder="Enter Post Body"
+                            style="resize: none; height: 100px;"
+                            value="${postBody}"
+                          >${postBody}</textarea>
+                        </div>  
+                        <div class="mb-3">
+                          <label for="edit-post-img" class="col-form-label"
+                            >Post Body:</label
+                          >
+                          <input type="file" class="form-control  "
+                          id="edit-post-img">
+                          
+                        </div>  
+                        
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                      id="closeEdit"
+                    >
+                      Close
+                    </button>
+                    <button type="button" id="btnEditPost" class="btn bg-vm-c-w ">
+                      Edit Post
+                    </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              
+              
+              
+              
+                </div>
             <div class="card-body">
               <h5 class="card-title postTitle">${postTitle}</h5>
               <p class="card-text postBody">${postBody}</p>
@@ -316,8 +588,8 @@ function createPostAndGetPostsAgain() {
   if (document.getElementById("post-img").files[0]) {
     formData.append("image", document.getElementById("post-img").files[0]);
   }
-  console.log(token);
-  console.log(formData);
+  // console.log(token);
+  // console.log(formData);
   let theHeaders = {
     authorization: token,
   };
@@ -469,4 +741,60 @@ function ass(e) {
     .catch((error) => {
       console.log(error);
     });
+}
+
+//
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("btnbtnaaadots")) {
+    // console.log("hi");
+    // console.log(e.target.id);
+    let postID = e.target.id;
+    document.addEventListener("click", function (e) {
+      if (e.target.id == "btnEditPost") {
+        edit(postID);
+      }
+    });
+  }
+});
+
+//
+function edit(id) {
+  const token = localStorage.token;
+  let formData = new FormData();
+  formData.append("title", document.getElementById("edit-post-title").value);
+  formData.append("body", document.getElementById("edit-post-body").value);
+  formData.append("image", document.getElementById("edit-post-img").files[0]);
+  formData.append("_method", "put");
+  let theHeaders = {
+    authorization: token,
+  };
+  console.log("good");
+  console.log(formData);
+  console.log(token);
+  console.log(theHeaders);
+  axios
+    .post(`${url}/posts/${id}`, formData, { headers: theHeaders })
+    .then((response) => {
+      console.log(response);
+      document.getElementById("closeEdit").click();
+      location.reload();
+    })
+    .catch((error) => {
+      document.body.style.position = "relative";
+      let aleee = document.createElement("div");
+
+      aleee.innerHTML = `<div id="aassss" class="alert alert-danger theAlert container fixed-bottom" role="alert" style="z-index:9999; width:fit-content">
+         ${error.response.data.message}  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`;
+      document.body.appendChild(aleee);
+      setTimeout(function () {
+        sadas();
+      }, 1000);
+      console.log(error.response.data.message);
+    });
+}
+
+function sadas() {
+  document.getElementById("aassss").style.display = "none";
+  console.log("bad");
 }

@@ -100,3 +100,14 @@ body {
     font-size: 12px;
   }
 }
+/*  */
+.btnbtnaaadots {
+  font-size: 14px !important;
+  color: white !important;
+  background-color: var(--main-color) !important;
+  font-weight: bold;
+  padding: 5px 10px !important;
+  border-radius: 10px 10px !important;
+  transition: 0.3s;
+  margin: 10px 20px;
+}
