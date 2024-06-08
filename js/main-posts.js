@@ -46,7 +46,7 @@ function appendPostToContainer(post) {
   let postCreated_at = post.created_at;
   let dis = "none";
   if (post.author.id === JSON.parse(localStorage.getItem("userData")).id) {
-    dis = "block";
+    dis = "flex";
   }
   theContainerOfPosts.innerHTML += `
     <div class="card mb-5" style="width: 40rem; max-width:100%">
@@ -56,7 +56,9 @@ function appendPostToContainer(post) {
           <h5 class="postUsername" style="padding-left: 10px;">${postUsername}</h5>
           </div>
           <div style="display:${dis}"><button data-bs-toggle="modal"
-          data-bs-target="#edit-post-model" type="button" class="btn btnbtnaaadots " id="${post.id}">Edit</button></div>
+          data-bs-target="#edit-post-model" type="button" class="btn btnbtnaaadots " id="${post.id}">Edit</button>
+          <button " type="button" class="btn delet " id="${post.id}">X</button>
+          </div>
 
               
           <div
@@ -92,7 +94,7 @@ function appendPostToContainer(post) {
                       class="form-control "
                       id="edit-post-title"
                       placeholder="Enter Post Title"
-                      value="${postTitle}"
+                      value=""
                     ></input>
                   </div>  
                   <div class="mb-3">
@@ -104,8 +106,8 @@ function appendPostToContainer(post) {
                       id="edit-post-body"
                       placeholder="Enter Post Body"
                       style="resize: none; height: 100px;"
-                      value="${postBody}"
-                    >${postBody}</textarea>
+                      value=""
+                    ></textarea>
                   </div>  
                   <div class="mb-3">
                     <label for="edit-post-img" class="col-form-label"
@@ -269,7 +271,7 @@ function getPosts(limit) {
         }
         let dis = "none";
         if (post.author.id == JSON.parse(localStorage.getItem("userData")).id) {
-          dis = "block";
+          dis = "flex";
         }
         //
         if (postImg !== "") {
@@ -280,8 +282,9 @@ function getPosts(limit) {
                 <img class="postUserimg" src=${postUserimg} alt="" style="width: 50px; height: 50px; border-radius: 50%;">
                 <h5 class="postUsername" style="padding-left: 10px;">${postUsername}</h5>
               </div>
-              <div style="display:${dis}"><button data-bs-toggle="modal"
-              data-bs-target="#edit-post-model" type="button" class="btn btnbtnaaadots " id="${post.id}">Edit</button></div>
+              <div class="btnss" style="display:${dis}"><button data-bs-toggle="modal"
+              data-bs-target="#edit-post-model" type="button" class="btn btnbtnaaadots " id="${post.id}">Edit</button>
+              <button " type="button" class="btn delet " id="${post.id}">X</button></div>
            
            
            
@@ -320,7 +323,7 @@ function getPosts(limit) {
                           class="form-control "
                           id="edit-post-title"
                           placeholder="Enter Post Title"
-                          value="${postTitle}"
+                          value=""
                         ></input>
                       </div>  
                       <div class="mb-3">
@@ -332,8 +335,8 @@ function getPosts(limit) {
                           id="edit-post-body"
                           placeholder="Enter Post Body"
                           style="resize: none; height: 100px;"
-                          value="${postBody}"
-                        >${postBody}</textarea>
+                          value=""
+                        ></textarea>
                       </div>  
                       <div class="mb-3">
                         <label for="edit-post-img" class="col-form-label"
@@ -403,7 +406,8 @@ function getPosts(limit) {
                 <h5 class="postUsername" style="padding-left: 10px;">${postUsername}</h5>
                 </div>
                 <div style="display:${dis}"><button data-bs-toggle="modal"
-                data-bs-target="#edit-post-model" type="button" class="btn btnbtnaaadots btnaaadots" id="${post.id}">Edit</button></div>
+                data-bs-target="#edit-post-model" type="button" class="btn btnbtnaaadots btnaaadots" id="${post.id}">Edit</button>
+                <button " type="button" class="btn delet " id="${post.id}">X</button></div>
               
               
                 <div
@@ -439,7 +443,7 @@ function getPosts(limit) {
                             class="form-control "
                             id="edit-post-title"
                             placeholder="Enter Post Title"
-                            value="${postTitle}"
+                            value=""
                           ></input>
                         </div>  
                         <div class="mb-3">
@@ -451,8 +455,8 @@ function getPosts(limit) {
                             id="edit-post-body"
                             placeholder="Enter Post Body"
                             style="resize: none; height: 100px;"
-                            value="${postBody}"
-                          >${postBody}</textarea>
+                            value=""
+                          ></textarea>
                         </div>  
                         <div class="mb-3">
                           <label for="edit-post-img" class="col-form-label"
@@ -798,3 +802,22 @@ function sadas() {
   document.getElementById("aassss").style.display = "none";
   console.log("bad");
 }
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("delet")) {
+    console.log(e.target.id);
+    e.target.parentElement.parentElement.parentElement.remove();
+    // axios.delete(/posts/22141)
+    const token = localStorage.token;
+    let theHeaders = {
+      authorization: token,
+    };
+    axios
+      .delete(`${url}/posts/${e.target.id}`, { headers: theHeaders })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+});
