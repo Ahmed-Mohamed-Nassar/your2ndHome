@@ -114,3 +114,12 @@ body {
   margin-right: 5px;
   height: fit-content;
 }
+
+.profileBody {
+  margin-top: 150px;
+}
+@media (max-width: 768px) {
+  .profileBody {
+    margin-top: 80px;
+  }
+}
