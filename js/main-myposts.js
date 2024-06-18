@@ -177,31 +177,31 @@ let thelimit = 30;
 function addNewPosts() {
   let offset = theContainerOfPosts.children.length;
   if (offset != thelimit) {
-    let load = document.createElement("div");
-    load.innerHTML = `<div class="d-flex justify-content-center position-fixid top-50 start-50">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>`;
-    document.body.appendChild(load);
-    setTimeout(() => {
-      load.style.display = "none";
-    }, 2500);
+    //     let load = document.createElement("div");
+    //     load.innerHTML = `<div class="d-flex justify-content-center position-fixid top-50 start-50">
+    //   <div class="spinner-border" role="status">
+    //     <span class="visually-hidden">Loading...</span>
+    //   </div>
+    // </div>`;
+    //     document.body.appendChild(load);
+    //     setTimeout(() => {
+    //       load.style.display = "none";
+    //     }, 2500);
   }
   axios
-    .get(`${url}/posts?limit=${thelimit}&offset=${offset}`)
+    .get(
+      `${url}/users/${
+        JSON.parse(localStorage.getItem("userData")).id
+      }/posts?limit=${thelimit}&offset=${offset}`
+    )
     .then((response) => {
       const posts = response.data.data;
       let aftetsli = posts.slice(offset, offset + 10);
       for (const post of aftetsli) {
-        if (post.author.id == JSON.parse(localStorage.getItem("userData")).id) {
-          appendPostToContainer(post);
-        } else {
-          continue;
-        }
+        appendPostToContainer(post);
       }
       loadingPosts = false;
-      console.log(posts);
+      // console.log(posts);
     })
     .catch((error) => {
       console.log(error);
@@ -225,47 +225,48 @@ function isEmpty(obj) {
 
 function getPosts(limit) {
   axios
-    .get(`${url}/posts?limit=${limit}`)
+    .get(
+      `${url}/users/${
+        JSON.parse(localStorage.getItem("userData")).id
+      }/posts?limit=${limit}`
+    )
     .then((response) => {
       const posts = response.data.data;
       theContainerOfPosts.innerHTML = "";
 
       for (const post of posts) {
-        if (post.author.id == JSON.parse(localStorage.getItem("userData")).id) {
-          let postUsername = "";
-          let postUserimg = "";
-          let postTitle = "";
-          let postBody = "";
-          let postImg = "";
-          let postCreated_at = "";
-          postUsername = post.author.name;
-          // postImg = post.image;
-          postImg = post.image;
-          if (isEmpty(post.image)) {
-            postImg = "";
-          }
-          postCreated_at = post.created_at;
+        let postUsername = "";
+        let postUserimg = "";
+        let postTitle = "";
+        let postBody = "";
+        let postImg = "";
+        let postCreated_at = "";
+        postUsername = post.author.name;
+        // postImg = post.image;
+        postImg = post.image;
+        if (isEmpty(post.image)) {
+          postImg = "";
+        }
+        postCreated_at = post.created_at;
 
-          if (isEmpty(post.author.profile_image)) {
-            postUserimg = "../imgs/prof.png";
-          } else {
-            postUserimg = post.author.profile_image;
-          }
-          if (post.title != null) {
-            postTitle = post.title;
-          }
-          if (post.body != null) {
-            postBody = post.body;
-          }
-          let dis = "none";
-          if (
-            post.author.id == JSON.parse(localStorage.getItem("userData")).id
-          ) {
-            dis = "flex";
-          }
-          //
-          if (postImg !== "") {
-            theContainerOfPosts.innerHTML += `
+        if (isEmpty(post.author.profile_image)) {
+          postUserimg = "../imgs/prof.png";
+        } else {
+          postUserimg = post.author.profile_image;
+        }
+        if (post.title != null) {
+          postTitle = post.title;
+        }
+        if (post.body != null) {
+          postBody = post.body;
+        }
+        let dis = "none";
+        if (post.author.id == JSON.parse(localStorage.getItem("userData")).id) {
+          dis = "flex";
+        }
+        //
+        if (postImg !== "") {
+          theContainerOfPosts.innerHTML += `
             <div class="card mb-5" style="width: 40rem; max-width:100%">
               <div  class="d-flex justify-content-between">
                 <div class="userInfo p-3 d-flex justify-content-start align-items-center">
@@ -355,20 +356,7 @@ function getPosts(limit) {
                   </div>
                 </div>
               </div>
-              
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
                 </div>
-  
               <img  src=${postImg} class="card-img-top p-2 postImg" alt="">
               <div class="card-body">
                 <h5 class="card-title postTitle">${postTitle}</h5>
@@ -382,13 +370,12 @@ function getPosts(limit) {
                 <p class="card-text ms-2 " style=" display: flex; margin-top: 10px;margin-bottom: 10px; justify-content: flex-end; align-items: center;">
                   <button class="showComments" value="${post.id}" style="border: 1px solid black; background-color: transparent; border-radius: 6px 6px; padding: 5px 10px;margin-left: 5px; ">show ${post.comments_count} comments</button>
                 </p>
-             
                 </div>
               </div>
             </div>
             `;
-          } else {
-            theContainerOfPosts.innerHTML += `
+        } else {
+          theContainerOfPosts.innerHTML += `
             <div class="card mb-5" style="width: 40rem; max-width:100%">
               <div  class="d-flex justify-content-between">
                 <div  class="userInfo p-3 d-flex justify-content-start align-items-center">
@@ -475,11 +462,6 @@ function getPosts(limit) {
                     </div>
                   </div>
                 </div>
-                
-                
-                
-                
-                
                   </div>
               <div class="card-body">
                 <h5 class="card-title postTitle">${postTitle}</h5>
@@ -498,9 +480,6 @@ function getPosts(limit) {
               </div>
             </div>
             `;
-          }
-        } else {
-          continue;
         }
 
         //
@@ -817,3 +796,8 @@ document.addEventListener("click", function (e) {
       });
   }
 });
+
+const theloade = document.getElementById("dnono");
+setTimeout(() => {
+  theloade.style.display = "none";
+}, 2000);
